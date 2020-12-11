@@ -1,0 +1,23 @@
+{
+  "name": "public-business-api",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "axios": "^0.21.0",
+    "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "escape-string-regexp": "^4.0.0",
+    "express": "~4.16.1",
+    "express-validator": "^6.7.0",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "mongoose": "^5.11.6",
+    "morgan": "~1.9.1",
+    "ololog": "^1.1.164",
+    "swagger-jsdoc": "^5.0.0"
+  }
+}
