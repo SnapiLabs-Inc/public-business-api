@@ -64,6 +64,7 @@ exports.search = (options=defaultOptions) => {
 			let category_1 = req.body.category_1;
 			let category_2 = req.body.category_2;
 			let state = req.body.state;
+			let city = req.body.city;
 			let searchResult = [];
 
 				// for (var i = 0; i < seachQuery.length; i++) {
@@ -94,30 +95,38 @@ exports.search = (options=defaultOptions) => {
 				// }
 
 				const $regex = escapeStringRegexp(keyword);
-			
-				const feedback = await BusinessModel.find({ 
-				$and: [
-					{ $or: [
-						{business_name: { $regex }},
-						{city: { $regex }},
-						{postal: { $regex }},
-						{address: { $regex }},
-						{phone_number: { $regex }},
-						{website: { $regex }},
-						{email: { $regex }},
-						{latitude: { $regex }},
-						{longitude: { $regex }},
-						{category: { $regex }},
-						{category_1: { $regex }},
-						{category_2: { $regex }},
-						{state: { $regex }}
-				    ]}
-					// {category: category},
-					// {category_1: category_1},
-					// {category_2: category_2}, 
-					// {state: state} 
 
-				]}).skip(start).limit(limit).sort();
+				let query = { 
+					$and: [
+						{ $or: [
+							{business_name: { $regex }},
+							{postal: { $regex }},
+							{address: { $regex }},
+							{phone_number: { $regex }},
+							{website: { $regex }},
+							{email: { $regex }},
+							{latitude: { $regex }},
+							{longitude: { $regex }},
+							{category: { $regex }},
+							{category_1: { $regex }},
+							{category_2: { $regex }},
+					    ]}
+						// {category: category},
+						// {category_1: category_1},
+						// {category_2: category_2}, 
+					]};
+		
+				if (state) {
+					query.$and.push({state: state} )
+				}
+
+				if (city) {
+					query.$and.push({city: city})
+				}	
+
+				//console.log(query)
+
+				const feedback = await BusinessModel.find(query).skip(start).limit(limit).sort();
 			
 			
 			res.status(200).json({

@@ -164,6 +164,10 @@ router.get('/find', [
  *                 type: string
  *               keyword:
  *                 type: string
+ *               state:
+ *                 type: string
+ *               city:
+ *                 type: string
  *               start:
  *                 type: string
  *               limit:
@@ -171,6 +175,8 @@ router.get('/find', [
  *             example:   
  *               api_key: 2UDB3dHF79h96yVVHvY6c6d51SEU501XwBj
  *               keyword: Abrasive Finishing
+ *               state: TX
+ *               city: Beaumont
  *               start: 0
  *               limit: 40
  *     produces:
@@ -186,6 +192,14 @@ router.get('/find', [
  *         type: string
  *         required: true
  *         description: The keyword to search.
+ *       - in: query
+ *         name: state
+ *         type: string
+ *         description: Filter search by state using the Iso alpha 2 code.
+ *       - in: query
+ *         name: city
+ *         type: string
+ *         description: Filter search by city.
  *       - in: query
  *         name: start
  *         type: integer
