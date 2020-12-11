@@ -96,7 +96,7 @@ const swaggerDefinition = {
       "description": "Development Server"
     }
   ],
-  //host: 'localhost:3000',
+  host: '/',
   basePath: '/',
   hideHostname: true
 };
