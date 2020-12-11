@@ -190,7 +190,6 @@ router.get('/find', [
  *       - in: query
  *         name: keyword
  *         type: string
- *         required: true
  *         description: The keyword to search.
  *       - in: query
  *         name: state
@@ -219,6 +218,15 @@ router.get('/find', [
  *             list:
  *               type: array
  *               example: []
+ *             start:
+ *               type: integer
+ *               example: 0
+ *             limit:
+ *               type: integer
+ *               example: 20
+ *             total_found:
+ *               type: integer
+ *               example: 75
  *       400:
  *         description: An unauthorized message is returned
  *         content:
@@ -245,7 +253,7 @@ router.get('/find', [
  */
 router.get('/search', [
 
-  check('keyword').notEmpty().isLength({ min: 2 }).withMessage('Your keyword is too short'),
+  //check('keyword').notEmpty().isLength({ min: 2 }).withMessage('Your keyword is too short'),
   // check('address').notEmpty().custom((value,{ req }) => {
   //   return web3.utils.isAddress(req.body.address)
   // }).withMessage('Invalid Ethereum address'),

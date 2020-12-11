@@ -57,7 +57,7 @@ exports.search = (options=defaultOptions) => {
 		try{
 			
 			let keyword = req.body.keyword;
-			let seachQuery = keyword.split(' ');
+			//let seachQuery = keyword.split(' ');
 			let start = req.body.start? parseInt(req.body.start) : 0;
 			let limit = req.body.limit? parseInt(req.body.limit) : 20;
 			let category = req.body.category;
@@ -94,27 +94,25 @@ exports.search = (options=defaultOptions) => {
 				// 	searchResult.push(searchResult);
 				// }
 
-				const $regex = escapeStringRegexp(keyword);
 
-				let query = { 
-					$and: [
-						{ $or: [
-							{business_name: { $regex }},
-							{postal: { $regex }},
-							{address: { $regex }},
-							{phone_number: { $regex }},
-							{website: { $regex }},
-							{email: { $regex }},
-							{latitude: { $regex }},
-							{longitude: { $regex }},
-							{category: { $regex }},
-							{category_1: { $regex }},
-							{category_2: { $regex }},
-					    ]}
-						// {category: category},
-						// {category_1: category_1},
-						// {category_2: category_2}, 
-					]};
+				let query = { $and:[] };
+
+				if(keyword){
+					const $regex = escapeStringRegexp(keyword);
+					query.$and.push({ $or: [
+						{business_name: { $regex }},
+						{postal: { $regex }},
+						{address: { $regex }},
+						{phone_number: { $regex }},
+						{website: { $regex }},
+						{email: { $regex }},
+						{latitude: { $regex }},
+						{longitude: { $regex }},
+						{category: { $regex }},
+						{category_1: { $regex }},
+						{category_2: { $regex }},
+				    ]});
+				}
 		
 				if (state) {
 					query.$and.push({state: state} )
@@ -124,13 +122,21 @@ exports.search = (options=defaultOptions) => {
 					query.$and.push({city: city})
 				}	
 
-				//console.log(query)
 
-				const feedback = await BusinessModel.find(query).skip(start).limit(limit).sort();
+				query = (query.$and.length > 0)? query : null;
+
+			    const model = BusinessModel.find(query);
+
+				const list = await model.skip(start).limit(limit).sort();
+
+				const totat_found = await model.count();
 			
 			
 			res.status(200).json({
-				list: feedback,	
+				list,
+				start,	
+				limit,
+				totat_found
 			});
 			res.end();
 		}
