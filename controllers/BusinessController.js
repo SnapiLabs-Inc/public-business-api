@@ -129,7 +129,7 @@ exports.search = (options=defaultOptions) => {
 
 				const list = await model.skip(start).limit(limit).sort();
 
-				const totat_found = await model.count();
+				const totat_found = await BusinessModel.find(query).count();
 			
 			
 			res.status(200).json({
